@@ -9,6 +9,7 @@ client/build/
 # Environment
 .env*
 !.env.example
+!client/.env
 
 # Test
 coverage
