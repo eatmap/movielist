@@ -8,6 +8,22 @@ services:
     volumes:
       - mongodb:/data/db
       - mongodb_config:/data/configdb
+  
+  web:
+    container_name: movielist_express
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mongo
+    volumes:
+      - ./:/app
+    ports:
+      - "8080:8080"
+    environment:
+      - MONGODB_URL=mongodb://mongo:27017/movielist
+      - PORT=8080
 
 volumes:
   mongodb:
