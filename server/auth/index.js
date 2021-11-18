@@ -7,7 +7,7 @@ const { cookieExtractor, headerExtractor } = require('./extractors');
 const expirationHour = 2;
 
 const algorithm = 'HS256';
-const secret = process.env.JWT_SECRET;
+const secret = process.env.JWT_SECRET || 'my-jwt-secret';
 const expiresIn = expirationHour * 60 * 60;
 const issuer = 'accounts.movielist.com';
 const audience = 'movielist.com';
