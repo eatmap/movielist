@@ -4,7 +4,9 @@ const express = require('express'),
   helmet = require('helmet'),
   mongoose = require('mongoose'),
   cors = require('cors'),
-  path = require('path');
+  path = require('path'),
+  cookieParser = require('cookie-parser'),
+  { passport } = require('./auth');
 
 /**
  * Setup connection to MongoDB
@@ -23,6 +25,8 @@ mongoose
 const app = express();
 app.use(helmet());
 app.use(cors());
+app.use(cookieParser());
+app.use(passport.initialize());
 
 /**
  * Map all the routes for the application
