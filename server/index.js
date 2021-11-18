@@ -19,11 +19,20 @@ mongoose
   .then(() => console.log('Connected to the database'))
   .catch((err) => console.log(err));
 
+mongoose.set('toJSON', {
+  virtuals: true,
+});
+
+mongoose.set('toObject', {
+  virtuals: true,
+});
+
 /**
  * Setup express with additional plugins
  */
 const app = express();
 app.use(helmet());
+app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 app.use(passport.initialize());

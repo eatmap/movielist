@@ -2,7 +2,7 @@ const User = require('../models/user');
 const { validateNonEmptyStr } = require('../utils/validations');
 
 async function getUserById(userId) {
-  const user = await User.findById(id).exec();
+  const user = await User.findById(userId).exec();
   return user;
 }
 
@@ -15,15 +15,22 @@ async function getUserByUsername(username) {
 }
 
 function parseNewUser(user) {
-  const { username, passwordHash } = user;
+  const { username, password } = user;
   validateNonEmptyStr(username, 'username');
-  validateNonEmptyStr(passwordHash, 'password');
+  validateNonEmptyStr(password, 'password');
 
-  return { username, passwordHash };
+  return { username, password };
 }
 
 async function createUser(user) {
   const parsedUser = parseNewUser(user);
+
+  // Determine if the username already exists
+  const isExistingUsername = await User.exists({ username: parsedUser.username });
+  if (isExistingUsername) {
+    throw new Error('Username already exists');
+  }
+
   const newUser = await User.create(parsedUser);
   return newUser;
 }

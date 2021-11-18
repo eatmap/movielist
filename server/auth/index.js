@@ -60,12 +60,13 @@ function createJWT(user) {
 }
 
 // Check if the incoming request is authenticated
-function authenticateRequest(req, res, next) {
+function authenticate(req, res, next) {
   return passport.authenticate('jwt', { session: false })(req, res, next);
 }
 
 module.exports = {
   passport,
   createJWT,
-  authenticateRequest,
+  authenticate,
+  expiresIn,
 };
