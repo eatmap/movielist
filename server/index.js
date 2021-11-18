@@ -27,7 +27,8 @@ app.use(cors());
 /**
  * Map all the routes for the application
  */
-require("./routes")(app);
+const apiRoutes = require("./routes");
+app.use("/api", apiRoutes);
 
 /**
  * If production, serve React build
