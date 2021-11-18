@@ -1,8 +1,9 @@
 name: Deploy Application to Cloud Run
 
-on: push
-  # release:
-    # types: [released]
+on:
+  push:
+    branches:
+      - main
 
 env:
   HOSTNAME: gcr.io
@@ -38,7 +39,7 @@ jobs:
 
       - name: Build Docker image
         run: |-
-          docker build -f Dockerfile.prod . -t ${{ steps.generate_name.outputs.docker_image }}
+          docker build -f Dockerfile . -t ${{ steps.generate_name.outputs.docker_image }}
           docker image ls
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@master

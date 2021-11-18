@@ -177,13 +177,19 @@ $ gcloud config set project <project-id>
 
 Create a Docker image for the application
 ```console
-$ docker build -f Dockerfile . -t gcr.io/movielist/app:latest
+$ docker build -f Dockerfile . -t gcr.io/cs3300-movielist/app:latest
 ```
 **Note**: Since we are using the GCP Container Registry, the image must have the prefix `gcr.io/project-name/`
 
+Ensure you are authenticated with the GCP:
+```console
+$ gcloud auth login
+$ gcloud auth configure-docker
+```
+
 Push the image to the existing registry.
 ```console
-$ docker push -f Dockerfile . -t gcr.io/movielist/app:latest
+$ docker push gcr.io/cs3300-movielist/app:latest
 ```
 **Note**: Ensure the image name matches from the build step.
 
