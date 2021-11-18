@@ -1,0 +1,28 @@
+name: Run tests
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+
+jobs:
+  test-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies (with cache)
+        uses: bahmutov/npm-install@HEAD
+
+      - name: Run tests
+        run: npm run test
