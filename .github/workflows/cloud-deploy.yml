@@ -1,8 +1,9 @@
 name: Deploy Application to Cloud Run
 
-on: push
-  # release:
-    # types: [released]
+on:
+  push:
+    branches:
+      - main
 
 env:
   HOSTNAME: gcr.io
