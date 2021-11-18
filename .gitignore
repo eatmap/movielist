@@ -13,6 +13,7 @@ client/build/
 
 # Test
 coverage
+globalConfig.json
 
 # Logs
 logs
