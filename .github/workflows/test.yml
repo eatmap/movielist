@@ -27,7 +27,7 @@ jobs:
         uses: bahmutov/npm-install@HEAD
 
       - name: Install jest
-        uses: npm install -g jest
+        run: npm install -g jest
 
       - name: Run tests
         run: npm test --updateSnapshot
