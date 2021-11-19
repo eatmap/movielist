@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const express = require('express'),
   helmet = require('helmet'),
   mongoose = require('mongoose'),
@@ -9,16 +7,8 @@ const express = require('express'),
   { passport } = require('./auth');
 
 /**
- * Setup connection to MongoDB
+ * Configure Mongoose
  */
-mongoose
-  .connect(process.env.MONGODB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('Connected to the database'))
-  .catch((err) => console.log(err));
-
 mongoose.set('toJSON', {
   virtuals: true,
 });
