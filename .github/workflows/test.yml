@@ -11,6 +11,7 @@ on:
 jobs:
   test-server:
     runs-on: ubuntu-latest
+    name: Run test for backend components
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -24,6 +25,9 @@ jobs:
 
       - name: Install dependencies (with cache)
         uses: bahmutov/npm-install@HEAD
+
+      - name: Install jest
+        uses: npm install -g jest
 
       - name: Run tests
         run: npm test --updateSnapshot
