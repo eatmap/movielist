@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import {
   Heading,
   Box,
@@ -16,23 +16,35 @@ import {
 import { getSortedGenres } from '../config/genres';
 import { certMapping } from '../config/certifications';
 import { useState } from 'react';
-import { BsChevronDoubleDown, BsChevronDoubleUp } from 'react-icons/bs';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+// import { BsChevronDoubleDown, BsChevronDoubleUp } from 'react-icons/bs';
 
 export default function SearchForm() {
   const {
     handleSubmit,
     register,
     reset,
+    control,
     formState: { errors, isSubmitting },
   } = useForm();
+
+  const animatedComponents = makeAnimated();
 
   async function onSubmit(values) {
     alert(JSON.stringify(values, null, 2));
   }
 
-  const [hidden, setHidden] = useState(false);
+  // const [hidden, setHidden] = useState(false);
 
   const VALID_RELEASE_YEAR = new Date().getFullYear();
+
+  const genreOptions = getSortedGenres().map((x) => {
+    return {
+      value: x[0],
+      label: x[1],
+    };
+  });
 
   return (
     <Box bg="white" p="5">
@@ -45,9 +57,8 @@ export default function SearchForm() {
         onSubmit={handleSubmit(onSubmit)}
         px="5"
         margin="auto"
-        h={hidden ? '0' : 'auto'}
-        visibility={hidden ? 'hidden' : 'visible'}
-        transition="height 0.5s"
+        // h={hidden ? '0' : 'auto'}
+        // visibility={hidden ? 'hidden' : 'visible'}
         my="2"
       >
         <SimpleGrid columns={[1, null, 3]} spacing={[5, null, 10]}>
@@ -174,17 +185,27 @@ export default function SearchForm() {
         <FormControl isInvalid={errors.genres} mt="2">
           <FormLabel htmlFor="genres">Genres</FormLabel>
 
-          <SimpleGrid columns={[2, null, 6]}>
-            {getSortedGenres().map((x) => {
-              const genreId = x[0];
-              const genreTitle = x[1];
+          <Controller
+            name="genres"
+            control={control}
+            render={({ field: { value, onChange, onBlur } }) => {
               return (
-                <Checkbox {...register('genres')} value={genreId} key={genreId}>
-                  {genreTitle}
-                </Checkbox>
+                <Select
+                  options={genreOptions}
+                  placeholder={'Pick genre(s)'}
+                  isMulti={true}
+                  components={animatedComponents}
+                  onChange={(options) =>
+                    onChange(options?.map((option) => option.value))
+                  }
+                  onBlur={onBlur}
+                  value={genreOptions.filter((option) =>
+                    value?.includes(option.value),
+                  )}
+                />
               );
-            })}
-          </SimpleGrid>
+            }}
+          />
 
           <FormErrorMessage>
             {errors.genres && errors.genres.message}
