@@ -67,6 +67,7 @@ router.post('/register', async (req, res) => {
       message: 'Successfully registered',
     });
   } catch (e) {
+    console.log(e);
     return res.status(500).json({ message: e.message });
   }
 });
@@ -76,5 +77,13 @@ router.get('/validate', authenticate, (req, res) =>
     message: 'Token is valid',
   }),
 );
+
+router.get('/logout', (req, res) => {
+  req.logout();
+  setJWTCookie(res, '', 0);
+  return res.status(200).json({
+    message: 'Successfully logged out',
+  });
+});
 
 module.exports = router;
