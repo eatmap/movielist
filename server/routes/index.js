@@ -10,4 +10,8 @@ router.get('/isup', (req, res) => {
 
 router.use('/auth', authRoutes);
 
+router.get('/*', (req, res) => {
+  return res.status(404).json({ message: 'Invalid endpoint' });
+});
+
 module.exports = router;

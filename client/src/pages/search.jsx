@@ -1,5 +1,8 @@
-import { Heading, Box } from '@chakra-ui/react';
+import { Heading, Box, Grid } from '@chakra-ui/react';
+
 import Navbar from '../components/Navbar';
+import SearchForm from '../components/SearchForm';
+
 // import { showSuccessMessage, showErrorMessage } from '../utils/toast';
 
 function SearchPage() {
@@ -7,8 +10,9 @@ function SearchPage() {
     <Box>
       <Navbar />
 
-      <Box py="5" bg="gray.200" minH="100vh">
-        <Heading textAlign="center">Search Movies</Heading>
+      <SearchForm />
+      <Box bg="gray.100" minH="50vh" py="5">
+        Results here
       </Box>
     </Box>
   );
