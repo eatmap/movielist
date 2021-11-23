@@ -19,16 +19,10 @@ import { certMapping } from '../config/certifications';
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+import { searchMovies } from '../actions/search';
+import { showErrorMessage } from '../utils/toast';
 
 // import { BsChevronDoubleDown, BsChevronDoubleUp } from 'react-icons/bs';
-
-async function dummyAPICall() {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve('Hola');
-    }, 3000);
-  });
-}
 
 export default function SearchForm({ setLoading, setMovies }) {
   const {
@@ -43,8 +37,12 @@ export default function SearchForm({ setLoading, setMovies }) {
 
   async function onSubmit(values) {
     setMovies([]);
-    alert(JSON.stringify(values, null, 2));
-    await dummyAPICall();
+    try {
+      const movies = await searchMovies(values);
+      setMovies(movies);
+    } catch (e) {
+      showErrorMessage(e.message || 'Movies could not be retrieved');
+    }
   }
 
   // const [hidden, setHidden] = useState(false);

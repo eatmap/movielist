@@ -1,5 +1,6 @@
-import { Box, Text, Spinner } from '@chakra-ui/react';
+import { Box, Text, Spinner, SimpleGrid } from '@chakra-ui/react';
 import { BsInfoCircle } from 'react-icons/bs';
+import MovieCard from './MovieCard';
 
 export default function MovieGrid({ isLoading, movies }) {
   if (isLoading) {
@@ -20,5 +21,11 @@ export default function MovieGrid({ isLoading, movies }) {
     );
   }
 
-  return <h1>Movies found</h1>;
+  return (
+    <SimpleGrid columns={{ base: 2, md: 4, lg: 6 }} w="100%" spacing="5">
+      {movies.map((x) => (
+        <MovieCard key={x.id} movie={x} />
+      ))}
+    </SimpleGrid>
+  );
 }
