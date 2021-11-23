@@ -1,15 +1,20 @@
-import searchData from './mock/search.json';
-
 export async function searchMovies(filters) {
-  //   alert(JSON.stringify(filters, null, 2));
+  const payload = { filters };
 
-  // TODO - Make API call to get the value
-  if (Math.random() < 0.2) {
-    throw new Error('Failed to retrieve movies');
-  }
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      return resolve(searchData.results);
-    }, 2000);
+  const response = await fetch('/api/search', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
+
+  const body = await response.json();
+  if (response.status === 200) {
+    return body.movies;
+  }
+
+  const errorMsg =
+    body.message || 'Failed to retrieve movies. Please try again later';
+  throw new Error(errorMsg);
 }
