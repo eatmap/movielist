@@ -7,9 +7,11 @@
 
 # Env configs
 app.yaml
-.env*
+**/.env*
 
 # Miscellaneous
 .gcloudignore
 
 **/*.md
+
+**/tests

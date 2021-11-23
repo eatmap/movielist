@@ -21,6 +21,7 @@ export default function MovieCard({ movie }) {
       <Image
         src={posterSrc}
         alt={movie.title}
+        title={movie.title}
         w="100%"
         h="100%"
         objectFit="cover"
