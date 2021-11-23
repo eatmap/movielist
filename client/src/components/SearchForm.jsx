@@ -12,15 +12,25 @@ import {
   Text,
   SimpleGrid,
   Divider,
+  Grid,
 } from '@chakra-ui/react';
 import { getSortedGenres } from '../config/genres';
 import { certMapping } from '../config/certifications';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+
 // import { BsChevronDoubleDown, BsChevronDoubleUp } from 'react-icons/bs';
 
-export default function SearchForm() {
+async function dummyAPICall() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve('Hola');
+    }, 3000);
+  });
+}
+
+export default function SearchForm({ setLoading, setMovies }) {
   const {
     handleSubmit,
     register,
@@ -32,10 +42,16 @@ export default function SearchForm() {
   const animatedComponents = makeAnimated();
 
   async function onSubmit(values) {
+    setMovies([]);
     alert(JSON.stringify(values, null, 2));
+    await dummyAPICall();
   }
 
   // const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    setLoading(isSubmitting);
+  }, [isSubmitting, setLoading]);
 
   const VALID_RELEASE_YEAR = new Date().getFullYear();
 
@@ -61,7 +77,10 @@ export default function SearchForm() {
         // visibility={hidden ? 'hidden' : 'visible'}
         my="2"
       >
-        <SimpleGrid columns={[1, null, 3]} spacing={[5, null, 10]}>
+        <Grid
+          templateColumns={{ base: '1fr', lg: '2fr 1fr 1fr' }}
+          gridColumnGap={[5, null, 10]}
+        >
           {/* Keywords field */}
           <FormControl isInvalid={errors.keywords}>
             <FormLabel htmlFor="username">Keywords</FormLabel>
@@ -137,7 +156,7 @@ export default function SearchForm() {
               <FormControl isInvalid={errors.minRatings}>
                 <Input
                   id="minRatings"
-                  placeholder="min ratings (e.g. 1)"
+                  placeholder="e.g. 1"
                   type="number"
                   {...register('minRatings', {
                     max: {
@@ -160,7 +179,7 @@ export default function SearchForm() {
               <FormControl isInvalid={errors.maxRatings}>
                 <Input
                   id="maxRatings"
-                  placeholder="min ratings (e.g. 8)"
+                  placeholder="e.g. 8"
                   type="number"
                   {...register('maxRatings', {
                     max: {
@@ -179,63 +198,69 @@ export default function SearchForm() {
               </FormControl>
             </Flex>
           </Box>
-        </SimpleGrid>
+        </Grid>
 
-        {/* Genres */}
-        <FormControl isInvalid={errors.genres} mt="2">
-          <FormLabel htmlFor="genres">Genres</FormLabel>
+        <Grid
+          templateColumns={{ base: '1fr', lg: '1fr 1fr' }}
+          gridColumnGap={[5, null, 10]}
+          mt="4"
+        >
+          {/* Genres */}
+          <FormControl isInvalid={errors.genres}>
+            <FormLabel htmlFor="genres">Genres</FormLabel>
 
-          <Controller
-            name="genres"
-            control={control}
-            render={({ field: { value, onChange, onBlur } }) => {
-              return (
-                <Select
-                  options={genreOptions}
-                  placeholder={'Pick genre(s)'}
-                  isMulti={true}
-                  components={animatedComponents}
-                  onChange={(options) =>
-                    onChange(options?.map((option) => option.value))
-                  }
-                  onBlur={onBlur}
-                  value={genreOptions.filter((option) =>
-                    value?.includes(option.value),
-                  )}
-                />
-              );
-            }}
-          />
+            <Controller
+              name="genres"
+              control={control}
+              render={({ field: { value, onChange, onBlur } }) => {
+                return (
+                  <Select
+                    options={genreOptions}
+                    placeholder={'Pick genre(s)'}
+                    isMulti={true}
+                    components={animatedComponents}
+                    onChange={(options) =>
+                      onChange(options?.map((option) => option.value))
+                    }
+                    onBlur={onBlur}
+                    value={genreOptions.filter((option) =>
+                      value?.includes(option.value),
+                    )}
+                  />
+                );
+              }}
+            />
 
-          <FormErrorMessage>
-            {errors.genres && errors.genres.message}
-          </FormErrorMessage>
-        </FormControl>
+            <FormErrorMessage>
+              {errors.genres && errors.genres.message}
+            </FormErrorMessage>
+          </FormControl>
 
-        {/* Certification */}
-        <FormControl isInvalid={errors.certifcation} mt="2">
-          <FormLabel htmlFor="certification">Certification</FormLabel>
+          {/* Certification */}
+          <FormControl isInvalid={errors.certifcation}>
+            <FormLabel htmlFor="certification">Certification</FormLabel>
 
-          <SimpleGrid columns={[2, null, 6]}>
-            {Object.entries(certMapping).map((x) => {
-              const certId = x[0];
-              const certTitle = x[1];
-              return (
-                <Checkbox
-                  {...register('certification')}
-                  value={certTitle}
-                  key={certId}
-                >
-                  {certTitle}
-                </Checkbox>
-              );
-            })}
-          </SimpleGrid>
+            <SimpleGrid columns={[2, null, 6]}>
+              {Object.entries(certMapping).map((x) => {
+                const certId = x[0];
+                const certTitle = x[1];
+                return (
+                  <Checkbox
+                    {...register('certification')}
+                    value={certTitle}
+                    key={certId}
+                  >
+                    {certTitle}
+                  </Checkbox>
+                );
+              })}
+            </SimpleGrid>
 
-          <FormErrorMessage>
-            {errors.certification && errors.certification.message}
-          </FormErrorMessage>
-        </FormControl>
+            <FormErrorMessage>
+              {errors.certification && errors.certification.message}
+            </FormErrorMessage>
+          </FormControl>
+        </Grid>
 
         <Box
           display="flex"
@@ -249,6 +274,7 @@ export default function SearchForm() {
           <Button
             colorScheme="messenger"
             isLoading={isSubmitting}
+            loadingText="Searching..."
             type="submit"
           >
             Show Results
