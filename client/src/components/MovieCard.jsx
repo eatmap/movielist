@@ -2,7 +2,7 @@ import { Box, Image } from '@chakra-ui/react';
 
 const POSTER_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
-export default function MovieCard({ movie }) {
+export default function MovieCard({ movie, onClick }) {
   const posterSrc = `${POSTER_BASE_URL}${movie.poster_path}`;
 
   return (
@@ -17,6 +17,7 @@ export default function MovieCard({ movie }) {
       _hover={{ boxShadow: 'xl' }}
       transition="all 0.25s ease"
       cursor="pointer"
+      onClick={onClick}
     >
       <Image
         src={posterSrc}

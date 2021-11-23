@@ -1,6 +1,6 @@
-import { Text, Box, Flex, Spacer, Button } from '@chakra-ui/react';
+import { Text, Box, Flex, Spacer, Button, Link } from '@chakra-ui/react';
 import HeaderText from '../components/HeaderText';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { showSuccessMessage, showErrorMessage } from '../utils/toast';
 import { logout } from '../actions/authentication';
 
@@ -18,14 +18,12 @@ export default function Navbar() {
       });
   };
   return (
-    <Box
-      px={5}
-      boxShadow="md"
-      borderBottom="1px"
-      borderColor="gray.100"
-    >
+    <Box px={5} boxShadow="md" borderBottom="1px" borderColor="gray.100">
       <Flex alignItems="center">
-        <HeaderText />
+        <Link as={RouterLink} to="/" _hover={{ textTransform: 'none' }}>
+          <HeaderText />
+        </Link>
+
         <Spacer />
         <Text mr="5">My Watchlist</Text>
         <Button onClick={onLogout}>Logout</Button>
