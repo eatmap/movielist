@@ -18,12 +18,16 @@ export default function Navbar() {
       });
   };
   return (
-    <Box px={5} boxShadow="md" py="0">
+    <Box
+      px={5}
+      boxShadow="md"
+      borderBottom="1px"
+      borderColor="gray.100"
+    >
       <Flex alignItems="center">
         <HeaderText />
         <Spacer />
-        <Text mr="5">Explore</Text>
-        <Text mr="5">Search</Text>
+        <Text mr="5">My Watchlist</Text>
         <Button onClick={onLogout}>Logout</Button>
       </Flex>
     </Box>
