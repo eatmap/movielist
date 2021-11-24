@@ -3,8 +3,6 @@ import useSWR from 'swr';
 const fetcher = async (url) => {
   const res = await fetch(url);
 
-  console.log('Response OK: ', res.ok);
-
   if (!res.ok) {
     let errorMessage = 'Failed to retrieve movie details';
     try {
@@ -27,6 +25,16 @@ export function GetMovieDetails(id) {
 
   return {
     movie: data?.result,
+    isLoading: !error && !data,
+    error: error,
+  };
+}
+
+export function GetMovieProviders(id) {
+  const { data, error } = useSWR(`/api/movies/${id}/providers`, fetcher);
+
+  return {
+    providers: data?.result,
     isLoading: !error && !data,
     error: error,
   };

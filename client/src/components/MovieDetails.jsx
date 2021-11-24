@@ -1,7 +1,9 @@
-import { Box, Text, Spinner, Heading } from '@chakra-ui/react';
+import { Box, Text, Spinner, Heading, Link } from '@chakra-ui/react';
 import { BsXCircle } from 'react-icons/bs';
+
 import { GetMovieDetails } from '../actions/movie';
 import { getMovieReleaseYear, getMovieRuntime } from '../utils/movie';
+import MovieProviders from './MovieProviders';
 
 import { BiTimeFive, BiCalendarAlt, BiStar } from 'react-icons/bi';
 
@@ -10,7 +12,7 @@ const BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/w780';
 function Backdrop({ imgPath }) {
   if (imgPath) {
     const url = `${BACKDROP_BASE_URL}${imgPath}`;
-    
+
     return (
       <Box
         pb="300px"
@@ -36,10 +38,10 @@ function Genres({ genres }) {
 
 function MetadataInfo({ icon, value }) {
   return (
-    <Text mr="3" d="flex" alignItems="center">
+    <Box mr="3" d="flex" alignItems="center">
       <Text mr="1">{icon}</Text>
       {value}
-    </Text>
+    </Box>
   );
 }
 
@@ -121,6 +123,19 @@ export default function MovieDetails({ id }) {
             {movie.overview}
           </Text>
         )}
+
+        <Box my="5">
+          <Heading size="sm">Providers</Heading>
+          <Text fontSize="xs">
+            Vist{' '}
+            <Link href="https://www.justwatch.com" isExternal>
+              JustWatch
+            </Link>{' '}
+            to easily find out where you can legally watch your favorite movies
+            & TV shows online.
+          </Text>
+          <MovieProviders id={id} />
+        </Box>
       </Box>
     </Box>
   );
