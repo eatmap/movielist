@@ -29,7 +29,7 @@ export default function LoginForm() {
   async function onSubmit(values) {
     const { username, password } = values;
     try {
-      await registerUser(username, password);      
+      await registerUser(username, password);
       showSuccessMessage('Registration was successful. Please log in');
       navigate('/login');
     } catch (e) {
@@ -38,7 +38,7 @@ export default function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <Box as="form" onSubmit={handleSubmit(onSubmit)} w="90%" mx="auto" mb="3">
       <FormControl isInvalid={errors.username}>
         <FormLabel htmlFor="username">Username</FormLabel>
         <Input
@@ -89,13 +89,13 @@ export default function LoginForm() {
         mt={4}
         justifyContent="space-between"
       >
-        <Button colorScheme="red" isLoading={isSubmitting} type="submit">
+        <Button colorScheme="messenger" isLoading={isSubmitting} type="submit">
           Submit
         </Button>
-        <Link as={RouterLink} color="red" to="/login">
+        <Link as={RouterLink} color="#0078ff" to="/login">
           Already a user?
         </Link>
       </Box>
-    </form>
+    </Box>
   );
 }

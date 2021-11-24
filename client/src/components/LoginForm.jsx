@@ -38,7 +38,7 @@ export default function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <Box as="form" onSubmit={handleSubmit(onSubmit)} w="90%" mx="auto" mb="3">
       <FormControl isInvalid={errors.username}>
         <FormLabel htmlFor="username">Username</FormLabel>
         <Input
@@ -53,7 +53,7 @@ export default function LoginForm() {
           {errors.username && errors.username.message}
         </FormErrorMessage>
       </FormControl>
-      <FormControl isInvalid={errors.password}>
+      <FormControl isInvalid={errors.password} mt="2">
         <FormLabel htmlFor="password">Password</FormLabel>
         <Input
           id="password"
@@ -73,13 +73,13 @@ export default function LoginForm() {
         mt={4}
         justifyContent="space-between"
       >
-        <Button colorScheme="red" isLoading={isSubmitting} type="submit">
+        <Button colorScheme="messenger" isLoading={isSubmitting} type="submit">
           Submit
         </Button>
-        <Link as={RouterLink} color="red" to="/register">
+        <Link as={RouterLink} color="#0078ff" to="/register">
           Not a user?
         </Link>
       </Box>
-    </form>
+    </Box>
   );
 }

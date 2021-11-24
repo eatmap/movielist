@@ -15,7 +15,7 @@ function Preloader() {
         thickness="4px"
         speed="0.65s"
         emptyColor="gray.200"
-        color="red.500"
+        color="messenger.500"
       />
     </Box>
   );
