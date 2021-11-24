@@ -63,12 +63,12 @@ export default function MovieGrid({ isLoading, movies }) {
         onClose={closeModal}
         isCentered
         motionPreset="slideInBottom"
-        size="xl"
+        size="3xl"
       >
         <ModalOverlay />
         <ModalContent bg="black" textColor="white">
           <ModalCloseButton />
-          <ModalBody textColor="white" minH="300px">
+          <ModalBody textColor="white" minH="300px" p="0">
             <MovieDetails id={activeMovie} />
           </ModalBody>
         </ModalContent>
