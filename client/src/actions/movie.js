@@ -7,7 +7,6 @@ const fetcher = async (url) => {
     let errorMessage = 'Failed to retrieve information';
     try {
       const errorResponse = await res.json();
-      console.log(errorResponse);
       if (errorResponse?.message) {
         errorMessage = errorResponse?.message;
       }

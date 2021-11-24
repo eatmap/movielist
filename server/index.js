@@ -21,7 +21,6 @@ mongoose.set('toObject', {
  * Setup express with additional plugins
  */
 const app = express();
-app.use(helmet());
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
