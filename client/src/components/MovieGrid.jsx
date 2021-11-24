@@ -64,6 +64,7 @@ export default function MovieGrid({ isLoading, movies }) {
         isCentered
         motionPreset="slideInBottom"
         size="3xl"
+        scrollBehavior="inside"
       >
         <ModalOverlay />
         <ModalContent bg="black" textColor="white">

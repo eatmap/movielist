@@ -6,6 +6,7 @@ import { getMovieReleaseYear, getMovieRuntime } from '../utils/movie';
 import MovieProviders from './MovieProviders';
 
 import { BiTimeFive, BiCalendarAlt, BiStar } from 'react-icons/bi';
+import MovieTrailer from './MovieTrailer';
 
 const BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/w780';
 
@@ -110,6 +111,7 @@ export default function MovieDetails({ id }) {
   return (
     <Box>
       <Backdrop imgPath={backdrop_path} />
+
       <Box px="5" pb="10" pt="2">
         <Heading size="lg">{title}</Heading>
         <Metadata
@@ -123,6 +125,10 @@ export default function MovieDetails({ id }) {
             {movie.overview}
           </Text>
         )}
+
+        <Box my="2">
+          <MovieTrailer id={id} />
+        </Box>
 
         <Box my="5">
           <Heading size="sm">Providers</Heading>
