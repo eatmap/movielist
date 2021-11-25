@@ -1,10 +1,10 @@
 const { Router } = require('express');
 
-const mockDetail = require('./mock/details');
-const mockProviders = require('./mock/providers');
-const mockTrailer = require('./mock/videos');
+const fetch = require('cross-fetch');
 
 const router = Router();
+
+const apiKey = '3801f3011e99b216b37a40b6358a7105';
 
 /**
  * This middleware verifies the provided movie id is valid
@@ -22,20 +22,20 @@ router.get('/:id/details', verifyMovieId, async (req, res) => {
   const movieId = req.params.id;
 
   /**
-   * TODO - Make API calls to get details for the provided movie id
    * Documentation - https://developers.themoviedb.org/3/movies/get-movie-details
    */
-  const apiResponse = mockDetail;
+  const apiResponse = await fetch('https://api.themoviedb.org/3/movie/' + movieId + '?api_key=' + apiKey + '&language=en-US');
 
-  // Mock API call failure
-  if (Math.random() < 0.1) {
+  if (apiResponse.status >= 400) {
     return res
       .status(500)
       .json({ message: `Failed to retrieve movie details for ${movieId}` });
   }
 
+  const apiJSON = await apiResponse.json();
+
   return res.status(200).json({
-    result: apiResponse,
+    result: apiJSON,
   });
 });
 
@@ -43,19 +43,27 @@ router.get('/:id/providers', verifyMovieId, async (req, res) => {
   const movieId = req.params.id;
 
   /**
-   * TODO - Make API calls to get watch providers for the provided movie id
    * Documentation - https://developers.themoviedb.org/3/movies/get-movie-watch-providers
    */
-  const apiResponse = mockProviders;
+  const apiResponse = await fetch('https://api.themoviedb.org/3/movie/' + movieId + '/watch/providers?api_key=' + apiKey);
 
-  // Mock API call failure
-  if (Math.random() < 0.1) {
+  if (apiResponse.status >= 400) {
     return res
       .status(500)
       .json({ message: `Failed to retrieve providers for ${movieId}` });
   }
 
-  const providers = apiResponse.results['US'];
+  const apiJSON = await apiResponse.json();
+
+  // Get US watch providers
+  const providers = apiJSON.results['US'];
+
+  if (providers == null) {
+    return res
+    .status(500)
+    .json({ message: `No US providers found for ${movieId}` });
+  }
+
 
   return res.status(200).json({
     result: providers,
@@ -66,19 +74,20 @@ router.get('/:id/trailer', verifyMovieId, async (req, res) => {
   const movieId = req.params.id;
 
   /**
-   * TODO - Make API calls to get trailer for the provided movie id
    * Documentation - https://developers.themoviedb.org/3/movies/get-movie-videos
    */
-  const apiResponse = mockTrailer;
+  const apiResponse = await fetch('https://api.themoviedb.org/3/movie/' + movieId + '/videos?api_key=' + apiKey + '&language=en-US');
 
-  // Mock API call failure
-  if (Math.random() < 0.1) {
+  if (apiResponse.status >= 400) {
     return res
       .status(500)
       .json({ message: `Failed to retrieve trailers for ${movieId}` });
   }
 
-  const youtubeVideos = apiResponse.results.filter(
+  const apiJSON = await apiResponse.json();
+
+  // Only get official youtube trailers
+  const youtubeVideos = apiJSON.results.filter(
     (x) => x.site === 'YouTube' && x.official,
   );
 
