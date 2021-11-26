@@ -1,5 +1,4 @@
 const express = require('express'),
-  helmet = require('helmet'),
   mongoose = require('mongoose'),
   cors = require('cors'),
   path = require('path'),
