@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - clean-api-test
     paths-ignore:
       - '**/*.md'
   push:

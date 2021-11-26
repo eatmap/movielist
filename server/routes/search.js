@@ -24,6 +24,7 @@ router.post('/', async (req, res) => {
 
   // Set highest certification level based on filter
   maxCertification = 'NC-17';
+  console.log(filters.certification.length);
   if (filters.certification.length > 0) {
     maxCertification = filters.certification.at(-1);
   }
