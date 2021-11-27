@@ -6,7 +6,6 @@
   "scripts": {
     "client-install": "npm install --prefix client",
     "client": "npm start --prefix client client",
-    "install": "npm install --prefix server",
     "server": "nodemon app.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "npm run build --prefix client",
@@ -23,7 +22,6 @@
     "cross-fetch": "^3.1.4",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.13",
     "passport": "^0.5.0",

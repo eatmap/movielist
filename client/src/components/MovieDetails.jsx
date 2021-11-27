@@ -1,12 +1,26 @@
-import { Box, Text, Spinner, Heading, Link } from '@chakra-ui/react';
+import { useState } from 'react';
+import {
+  Box,
+  Text,
+  Spinner,
+  Heading,
+  Link,
+  Grid,
+  Button,
+  Stack,
+} from '@chakra-ui/react';
 import { BsXCircle } from 'react-icons/bs';
+import { BiTimeFive, BiCalendarAlt, BiStar } from 'react-icons/bi';
 
 import { GetMovieDetails } from '../actions/movie';
-import { getMovieReleaseYear, getMovieRuntime } from '../utils/movie';
-import MovieProviders from './MovieProviders';
+import { deleteFromWatchlist } from '../actions/watchlist';
 
-import { BiTimeFive, BiCalendarAlt, BiStar } from 'react-icons/bi';
+import { getMovieReleaseYear, getMovieRuntime } from '../utils/movie';
+import { showErrorMessage, showSuccessMessage } from '../utils/toast';
+
+import MovieProviders from './MovieProviders';
 import MovieTrailer from './MovieTrailer';
+import AddToWatchlistButton from './AddToWatchlistButton';
 
 const BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/w780';
 
@@ -62,7 +76,28 @@ function Metadata({ runtime, releaseDate, voteAverage }) {
   );
 }
 
-export default function MovieDetails({ id }) {
+function DeleteButton({ movieId, watchlistId }) {
+  const [loading, setLoading] = useState(false);
+  const deleteMovie = () => {
+    setLoading(true);
+    deleteFromWatchlist(movieId, watchlistId)
+      .then(() => {
+        showSuccessMessage('Successfully removed the movie from the watchlist');
+      })
+      .catch((e) => {
+        showErrorMessage(e.message || 'Failed to remove movie from watchlist');
+      })
+      .finally(() => setLoading(false));
+  };
+
+  return (
+    <Button colorScheme="whiteAlpha" onClick={deleteMovie} isLoading={loading}>
+      - Remove from watchlist
+    </Button>
+  );
+}
+
+export default function MovieDetails({ id, watchlistId }) {
   const { movie, isLoading, error } = GetMovieDetails(id);
 
   if (error) {
@@ -113,18 +148,28 @@ export default function MovieDetails({ id }) {
       <Backdrop imgPath={backdrop_path} />
 
       <Box px="5" pb="10" pt="2">
-        <Heading size="lg">{title}</Heading>
-        <Metadata
-          runtime={runtime}
-          releaseDate={release_date}
-          voteAverage={vote_average}
-        />
-        {genres && <Genres genres={genres} />}
-        {overview && (
-          <Text textColor="gray.50" fontSize="sm" my="2" maxW="500px">
-            {movie.overview}
-          </Text>
-        )}
+        <Grid templateColumns={{ base: '1fr', lg: '2fr 1fr' }} columnGap="5">
+          <Box>
+            <Heading size="lg">{title}</Heading>
+            <Metadata
+              runtime={runtime}
+              releaseDate={release_date}
+              voteAverage={vote_average}
+            />
+            {genres && <Genres genres={genres} />}
+            {overview && (
+              <Text textColor="gray.50" fontSize="sm" my="2" maxW="500px">
+                {movie.overview}
+              </Text>
+            )}
+          </Box>
+          <Stack p="2">
+            <AddToWatchlistButton movie={movie} />
+            {watchlistId && (
+              <DeleteButton movieId={id} watchlistId={watchlistId} />
+            )}
+          </Stack>
+        </Grid>
 
         <Box my="2">
           <MovieTrailer id={id} />

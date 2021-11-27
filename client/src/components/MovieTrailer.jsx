@@ -22,7 +22,7 @@ export default function MovieTrailer({ id }) {
     const watchKey = data.key;
 
     return (
-      <Box overflow="hidden" position="relative" height="0" pb="56.25%">
+      <Box overflow="hidden" position="relative" height="0" pb="56.25%" my="3">
         <Box
           as="iframe"
           width="100%"

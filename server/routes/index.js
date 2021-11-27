@@ -3,6 +3,7 @@ const express = require('express');
 const authRoutes = require('./auth');
 const searchRoutes = require('./search');
 const movieRoutes = require('./movies');
+const watchlistRoutes = require('./watchlists');
 
 const router = express.Router();
 
@@ -13,6 +14,7 @@ router.get('/isup', (req, res) => {
 router.use('/auth', authRoutes);
 router.use('/search', searchRoutes);
 router.use('/movies', movieRoutes);
+router.use('/watchlists', watchlistRoutes);
 
 router.get('/*', (req, res) => {
   return res.status(404).json({ message: 'Invalid endpoint' });

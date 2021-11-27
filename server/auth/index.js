@@ -61,7 +61,22 @@ function createJWT(user) {
 
 // Check if the incoming request is authenticated
 function authenticate(req, res, next) {
-  return passport.authenticate('jwt', { session: false })(req, res, next);
+  return passport.authenticate(
+    'jwt',
+    { session: false },
+    function (err, user, info) {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res
+          .status(401)
+          .json({ message: 'Please authenticate with the app' });
+      }
+      req.user = user;
+      return next();
+    },
+  )(req, res, next);
 }
 
 module.exports = {
