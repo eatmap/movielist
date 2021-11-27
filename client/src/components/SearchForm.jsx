@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { getSortedGenres } from '../config/genres';
 import { certMapping } from '../config/certifications';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { searchMovies } from '../actions/search';
