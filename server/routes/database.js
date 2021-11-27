@@ -2,87 +2,55 @@ const express = require('express');
 const movie = require('../models/movie');
 const watchList = require('../models/watchList');
 const watchList = require('../models/user');
+const { addToWatchlist, getWatchList, removeFromWatchlist } = require('../services/DatabaseService');
 
 const router = Router();
 
-//create - put
-
-router.post('/register', async (req, res) => {
-    const user = await getUserByUsername(username);
-    const newList = createNewWatchList(name, description);
-    user.update(
-        {username: user.name}
-        {$push : newList}
-    )
-    return res.status(200).json({
-            newWatchList: newList
-            allWatchLists: user.watchLists,
+//get
+router.get('/getWatchList', (req, res) => {
+    const { username } = req.body;
+    if (!username) {
+        return res.status(400).json({
+            message: 'Please provide user credentials',
         });
+    }
 
-});
+    const watchList = getWatchList(username);
 
-//edit - post
-router.post('/register', async (req, res) => {
-    const user = await getUserByUsername(username);
-    user.update(
-        {username: user.name}
-        {$push : newList}
-    )
     return res.status(200).json({
-            allWatchLists: user.watchLists,
-        });
-
-});
-
-//delete - delete
-router.delete('/register', async (req, res) => {
-    const user = await getUserByUsername(username);
-    user.update(
-         {username: user.name}
-         {$push : newList}
-    )
-    return res.status(200).json({
-          allWatchLists: user.watchLists,
+        watchList
     });
 });
 
-//get
-router.get('/getWatchLists', (req, res) => {
-    Array watchList = getWatchLists();
+router.put('/addToWatchlist', async (req, res) => {
+    const { username, movieId, movieTitle, moviePosterPath } = req.body;
+
+    if (!username || !movieId || !movieTitle || !moviePosterPath) {
+        return res.status(400).json({
+            message: 'Please provide the correct parameters.',
+        });
+    }
+
+    try {
+        addToWatchlist(username, movieId, movieTitle, moviePosterPath);
+    } catch {
+        return res.status(500).json({
+            message: 'Something went wrong.',
+        });
+    }
 
     return res.status(200).json({
-          message: 'Watchlist deleted',
-        });
+        message: 'Movie added to the watchlist.',
+    });
+
 });
 
-//functions
+router.delete('/removeFromWatchlist', async (req, res) => {
+    const { username, movieId } = req.body;
 
-async function getWatchLists(username){
-    if (!username) {
-        throw Error('Please provide a valid username');
-      }
-      const user = await User.findOne({ username }).exec();
-      return user.watchLists;
-}
+    removeFromWatchlist(username, movieId);
 
-async function createNewWatchList(name, description){
-    if (!name) {
-        throw Error('Please provide a name for your watchlist');
-      }
-      const newList = await WatchList.create(parseNewList);
-
-      return newList;
-}
-
-function parseNewList(name, description) {
-  return { username, password };
-}
-
-async function updateWatchList(newName, newDescription){
-    if (!newName || (name == newName)) {
-        throw Error('Please provide a new name for your watchlist');
-      }
-      const newList = await WatchList.create(parseNewList);
-
-      return newList;
-}
+    return res.status(200).json({
+          message: 'Movie removed from watchlist.',
+    });
+});
