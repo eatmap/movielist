@@ -1,37 +1,51 @@
 const { Router } = require('express');
 const {
   addToWatchlist,
-  getWatchList,
   removeFromWatchlist,
-} = require('../services/DatabaseService');
+} = require('../services/databaseService');
 const { authenticate } = require('../auth');
 
 const router = Router();
 
 router.get('/', authenticate, async (req, res) => {
   try {
-    // TODO - Get all watchlists for the above user from the database
-    const { username } = req.body;
-    if (!username) {
+    // Get current user
+    if (!req.user) {
       return res.status(400).json({
         message: 'Please provide user credentials',
       });
     }
 
-    const watchList = getWatchList(username);
+    const watchList = req.user.watchList || [];
 
     return res.status(200).json({
       watchList,
     });
-
-    // return res.status(200).json({ result: mockList });
   } catch (err) {
     return res.status(500).json({ message: 'Failed to retrieve watchlists' });
   }
 });
 
-router.put('/addToWatchlist', async (req, res) => {
-  const { username, movieId, movieTitle, moviePosterPath } = req.body;
+router.get('/:id/exists', authenticate, async (req, res) => {
+  try {
+    const movieId = req.params.id;
+    const watchList = req.user.watchList || [];
+
+    const movieExists = watchList.some((x) => x.movieId === Number(movieId));
+
+    return res.status(200).json({
+      exists: movieExists,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: 'Something went wrong.',
+    });
+  }
+});
+
+router.put('/', authenticate, async (req, res) => {
+  const { movieId, movieTitle, moviePosterPath } = req.body;
+  const { username } = req.user;
 
   if (!username || !movieId || !movieTitle || !moviePosterPath) {
     return res.status(400).json({
@@ -52,14 +66,21 @@ router.put('/addToWatchlist', async (req, res) => {
   });
 });
 
-router.delete('/removeFromWatchlist', async (req, res) => {
-  const { username, movieId } = req.body;
+router.delete('/', authenticate, async (req, res) => {
+  try {
+    const { movieId } = req.body;
+    const { username } = req.user;
 
-  removeFromWatchlist(username, movieId);
+    removeFromWatchlist(username, movieId);
 
-  return res.status(200).json({
-    message: 'Movie removed from watchlist.',
-  });
+    return res.status(200).json({
+      message: 'Movie removed from watchlist.',
+    });
+  } catch {
+    return res.status(500).json({
+      message: 'Something went wrong.',
+    });
+  }
 });
 
 module.exports = router;
