@@ -47,12 +47,11 @@ router.post('/', authenticate, async (req, res) => {
     // Set certifications if required
     if (filters?.certification?.length > 0) {
       // Check for single or multiple certifications
-      if (filters?.certification?.length == 1) {
-        const certification = filters.certification.at(-1);
-        searchUrl += `&certification=${encodeURIComponent(certification)}`;
+      if (filters.certification.length == 1) {
+        searchUrl += `&certification=${encodeURIComponent(filters.certification)}`;
       } else {
-        const certificationLte = filters.certification.at(-1);
-        const certificationGte = filters.certification.at(0);
+        const certificationLte = filters.certification[filters.certification.length-1];
+        const certificationGte = filters.certification[0];
         searchUrl += `&certification.lte=${encodeURIComponent(certificationLte)}` +
         `&certification.gte=${encodeURIComponent(certificationGte)}`;
       }
