@@ -73,6 +73,7 @@ function authenticate(req, res, next) {
           .status(401)
           .json({ message: 'Please authenticate with the app' });
       }
+      req.user = user;
       return next();
     },
   )(req, res, next);
