@@ -113,11 +113,6 @@ Install all the required dependencies for backend application:
 $ npm run install
 ```
 
-Before running the backend server, you must also run your MongoDB instance locally by running:
-```console
-$ mongod --dbpath /usr/local/var/mogodb
-```
-
 To start the backend application in development mode:
 ```console
 $ npm run server
