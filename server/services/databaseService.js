@@ -24,9 +24,6 @@ async function addToWatchlist(username, movieId, movieTitle, moviePosterPath) {
         }
     }
     );
-
-    const movie = await Movie.create(movie);
-    return movie;
 }
 
 async function removeFromWatchlist(username, movieId) {
