@@ -27,3 +27,7 @@ patches/
 
 # OSX
 .DS_Store
+
+# Code Editor
+**/.vscode
+**/.idea
