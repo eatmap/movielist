@@ -1,5 +1,4 @@
 const express = require('express'),
-  helmet = require('helmet'),
   mongoose = require('mongoose'),
   cors = require('cors'),
   path = require('path'),
@@ -38,7 +37,7 @@ app.use('/api', apiRoutes);
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, '..', 'client', 'build', 'index.html'));
   });
 } else {
   app.get('*', (req, res) => {

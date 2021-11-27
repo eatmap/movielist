@@ -13,7 +13,7 @@ const PROVIDER_BASE_URL = 'https://image.tmdb.org/t/p/w45';
 
 function ProvidersDisplay({ providerType, providerList }) {
   return (
-    <Box>
+    <Box mt="2">
       <Text>{providerType}</Text>
       <Wrap>
         {providerList.map((x) => {
