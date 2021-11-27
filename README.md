@@ -20,9 +20,17 @@ The project is structured as following:
   - [`src/utils`](client/src/utils): Contains miscellaneous helper codes
 
 - [`server/`](server): Contains almost all of our back-end code. It has following important sub-folders and files:
-  - [`package.json`](server/package.json): Contains all the dependencies and commands to run our backend
-  - [`index.js`](server/index.js): This file initializes the Express server
+  - [`auth/`](server/auth): This folder contains all the helper code to authenticate user, issue/verify JWT token
+  - [`models/`](server/models): This folder contains database schemas
   - [`routes/`](server/routes): This folder contains all the API endpoints handlers
+  - [`services/`](server/services): This folder contains all the code to interact with the database
+  - [`utils/`](server/utils): This folder contains miscellaneous helper code
+  - [`index.js`](server/index.js): This file initializes the Express server
+  
+- [`app.js`](app.js): Entry point for the application
+- [`package.json`](package.json): Contains all the dependencies and commands to run our backend
+
+
   
 ## Pre-requisites
 The following tools, software, and technologies are needed to run the application:
@@ -80,6 +88,8 @@ We are using MongoDB to store user data for authentication purposes and managing
 ```console
 $ docker compose up mongo
 ```
+
+Alternatively, you can use [MongoDB Atlas](https://www.mongodb.com/) to create a MongoDB cluster in cloud. Set the connection string to this cluster as the environment variable `MONGODB_URL`.
 
 </li>
 </ol>
