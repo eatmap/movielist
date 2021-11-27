@@ -1,26 +1,14 @@
-import { useState } from 'react';
-import {
-  Box,
-  Text,
-  Spinner,
-  Heading,
-  Link,
-  Grid,
-  Button,
-  Stack,
-} from '@chakra-ui/react';
+import { Box, Text, Spinner, Heading, Link, Grid } from '@chakra-ui/react';
 import { BsXCircle } from 'react-icons/bs';
 import { BiTimeFive, BiCalendarAlt, BiStar } from 'react-icons/bi';
 
 import { GetMovieDetails } from '../actions/movie';
-import { deleteFromWatchlist } from '../actions/watchlist';
 
 import { getMovieReleaseYear, getMovieRuntime } from '../utils/movie';
-import { showErrorMessage, showSuccessMessage } from '../utils/toast';
 
 import MovieProviders from './MovieProviders';
 import MovieTrailer from './MovieTrailer';
-import AddToWatchlistButton from './AddToWatchlistButton';
+import WatchListButton from './WatchListButton';
 
 const BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/w780';
 
@@ -76,28 +64,7 @@ function Metadata({ runtime, releaseDate, voteAverage }) {
   );
 }
 
-function DeleteButton({ movieId, watchlistId }) {
-  const [loading, setLoading] = useState(false);
-  const deleteMovie = () => {
-    setLoading(true);
-    deleteFromWatchlist(movieId, watchlistId)
-      .then(() => {
-        showSuccessMessage('Successfully removed the movie from the watchlist');
-      })
-      .catch((e) => {
-        showErrorMessage(e.message || 'Failed to remove movie from watchlist');
-      })
-      .finally(() => setLoading(false));
-  };
-
-  return (
-    <Button colorScheme="whiteAlpha" onClick={deleteMovie} isLoading={loading}>
-      - Remove from watchlist
-    </Button>
-  );
-}
-
-export default function MovieDetails({ id, watchlistId }) {
+export default function MovieDetails({ id }) {
   const { movie, isLoading, error } = GetMovieDetails(id);
 
   if (error) {
@@ -141,6 +108,7 @@ export default function MovieDetails({ id, watchlistId }) {
     release_date,
     runtime,
     vote_average,
+    poster_path,
   } = movie;
 
   return (
@@ -163,12 +131,13 @@ export default function MovieDetails({ id, watchlistId }) {
               </Text>
             )}
           </Box>
-          <Stack p="2">
-            <AddToWatchlistButton movie={movie} />
-            {watchlistId && (
-              <DeleteButton movieId={id} watchlistId={watchlistId} />
-            )}
-          </Stack>
+          <Box p="2">
+            <WatchListButton
+              movieId={id}
+              movieTitle={title}
+              moviePosterPath={poster_path}
+            />
+          </Box>
         </Grid>
 
         <Box my="2">

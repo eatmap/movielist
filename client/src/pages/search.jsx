@@ -1,4 +1,4 @@
-import { Heading, Box, Grid } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { useState } from 'react';
 import MovieGrid from '../components/MovieGrid';
 
@@ -17,7 +17,14 @@ function SearchPage() {
       <Navbar />
 
       <SearchForm setLoading={setLoading} setMovies={setMovies} />
-      <Box bg="gray.100" minH="60vh" p="5" d="flex" justifyContent="center" alignItems="center">
+      <Box
+        bg="gray.100"
+        minH="60vh"
+        p="5"
+        d="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
         <MovieGrid isLoading={loading} movies={movies} />
       </Box>
     </Box>
