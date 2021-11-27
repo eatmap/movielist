@@ -46,8 +46,16 @@ router.post('/', authenticate, async (req, res) => {
 
     // Set certifications if required
     if (filters?.certification?.length > 0) {
-      const certification = filters.certification.join('|');
-      searchUrl += `&certification=${encodeURIComponent(certification)}`;
+      // Check for single or multiple certifications
+      if (filters?.certification?.length == 1) {
+        const certification = filters.certification.at(-1);
+        searchUrl += `&certification=${encodeURIComponent(certification)}`;
+      } else {
+        const certificationLte = filters.certification.at(-1);
+        const certificationGte = filters.certification.at(0);
+        searchUrl += `&certification.lte=${encodeURIComponent(certificationLte)}` +
+        `&certification.gte=${encodeURIComponent(certificationGte)}`;
+      }
     }
 
     // Set release date constraints
