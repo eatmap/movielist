@@ -18,14 +18,22 @@ export default function Navbar() {
       });
   };
   return (
-    <Box px={5} boxShadow="md" borderBottom="1px" borderColor="gray.100">
+    <Box
+      px={5}
+      boxShadow="md"
+      borderBottom="1px"
+      borderColor="gray.100"
+      bgColor="white"
+    >
       <Flex alignItems="center">
         <Link as={RouterLink} to="/" _hover={{ textTransform: 'none' }}>
           <HeaderText />
         </Link>
 
         <Spacer />
-        <Text mr="5">My Watchlist</Text>
+        <Button as={RouterLink} to="/watchlist" colorScheme="messenger" mr="5">
+          My Watchlist
+        </Button>
         <Button onClick={onLogout}>Logout</Button>
       </Flex>
     </Box>
