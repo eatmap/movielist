@@ -9,6 +9,7 @@ import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
 import NoFoundPage from './pages/404';
 import SearchPage from './pages/search';
+import WatchlistPage from './pages/watchlist';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -19,6 +20,9 @@ function App() {
         <Routes>
           <Route exact path="/" element={<ProtectedRoute />}>
             <Route exact path="/" element={<SearchPage />} />
+          </Route>
+          <Route exact path="/watchlist" element={<ProtectedRoute />}>
+            <Route exact path="/watchlist" element={<WatchlistPage />} />
           </Route>
           <Route exact path="/login" element={<AuthRoute />}>
             <Route exact path="/login" element={<LoginPage />} />
