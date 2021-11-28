@@ -25,7 +25,9 @@ export default function Navbar() {
         </Link>
 
         <Spacer />
-        <Text mr="5">My Watchlist</Text>
+        <Button as={RouterLink} to="/watchlist" colorScheme="messenger" mr="5">
+          My Watchlist
+        </Button>
         <Button onClick={onLogout}>Logout</Button>
       </Flex>
     </Box>
