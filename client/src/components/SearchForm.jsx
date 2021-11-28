@@ -24,7 +24,7 @@ import { showErrorMessage } from '../utils/toast';
 
 // import { BsChevronDoubleDown, BsChevronDoubleUp } from 'react-icons/bs';
 
-export default function SearchForm({ setLoading, setMovies }) {
+export default function SearchForm({ setLoading, setMovies, setFilters, isDisabled }) {
   const {
     handleSubmit,
     register,
@@ -40,6 +40,7 @@ export default function SearchForm({ setLoading, setMovies }) {
     try {
       const movies = await searchMovies(values);
       setMovies(movies);
+      setFilters(values);
     } catch (e) {
       showErrorMessage(e.message || 'Movies could not be retrieved');
     }
@@ -266,7 +267,7 @@ export default function SearchForm({ setLoading, setMovies }) {
           mt={4}
           justifyContent="space-between"
         >
-          <Button variant="link" onClick={() => reset({})}>
+          <Button onClick={() => reset({})}>
             Clear Filters
           </Button>
           <Button
@@ -274,6 +275,7 @@ export default function SearchForm({ setLoading, setMovies }) {
             isLoading={isSubmitting}
             loadingText="Searching..."
             type="submit"
+            isDisabled={isDisabled}
           >
             Show Results
           </Button>
