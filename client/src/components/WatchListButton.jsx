@@ -49,11 +49,11 @@ function DeleteFromWatchListButton({ movieId }) {
     setLoading(true);
     deleteFromWatchlist(movieId)
       .then(() => {
-        showSuccessMessage('Successfully added the movie from the watchlist');
+        showSuccessMessage('Successfully removed the movie from the watchlist');
         updateWatchlistState(movieId);
       })
       .catch((e) => {
-        showErrorMessage(e.message || 'Failed to remove movie from watchlist');
+        showErrorMessage(e.message || 'Failed to remove the movie from the watchlist');
       })
       .finally(() => setLoading(false));
   };
