@@ -133,8 +133,8 @@ By default, the backend application will be available on `http://localhost:8080`
 ## Running the application (Production mode)
 Install all the required dependencies for frontend and backend application:
 ```console
-$ npm install client-install
-$ npm install install
+$ npm run client-install
+$ npm install
 ```
 
 Create a production build for React app
