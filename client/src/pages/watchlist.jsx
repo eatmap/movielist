@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Heading, Divider } from '@chakra-ui/react';
 import MovieGrid from '../components/MovieGrid';
 import Navbar from '../components/Navbar';
 import { useWatchlist } from '../actions/watchlist';
@@ -23,6 +23,9 @@ export default function WatchlistPage() {
   return (
     <Box bgColor="gray.100" h="100vh">
       <Navbar />
+      <Box bg="white" p="5">
+        <Heading textAlign="center">Watchlist</Heading>
+      </Box>
       <Box mt={8}>
         <MovieGrid isLoading={isLoading} movies={movies} />
       </Box>
