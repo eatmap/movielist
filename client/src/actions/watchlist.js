@@ -84,3 +84,13 @@ export function InWatchList(movieId) {
     error,
   };
 }
+
+export function useWatchlist() {
+  const { data, error } = useSWR(`/api/watchlists`, fetcher);
+
+  return {
+    watchlist: data?.watchList ?? [],
+    isLoading: !error && !data,
+    error,
+  };
+}

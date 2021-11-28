@@ -18,7 +18,13 @@ export default function Navbar() {
       });
   };
   return (
-    <Box px={5} boxShadow="md" borderBottom="1px" borderColor="gray.100">
+    <Box
+      px={5}
+      boxShadow="md"
+      borderBottom="1px"
+      borderColor="gray.100"
+      bgColor="white"
+    >
       <Flex alignItems="center">
         <Link as={RouterLink} to="/" _hover={{ textTransform: 'none' }}>
           <HeaderText />
